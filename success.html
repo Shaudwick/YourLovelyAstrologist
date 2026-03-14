@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thank You — Whisper Nuance</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <style>
         body { font-family: 'Georgia', serif; }
         .breathing { animation: breathe 4s ease-in-out infinite; }
@@ -58,7 +57,6 @@
         </div>
     </div>
     <script>
-        emailjs.init('Kh4L6GyJRqfgckSwt');
         const params = new URLSearchParams(window.location.search);
         const pkg = params.get('package') || 'Tarot Reading';
         document.getElementById('package-name').value = pkg;
@@ -70,16 +68,23 @@
             const preferred = this.querySelector('[name="preferred_date"]').value || 'As requested';
             document.getElementById('booking-date').value = preferred;
             document.getElementById('booking-time').value = preferred;
+            msgDiv.classList.add('hidden');
             btn.disabled = true;
             btn.textContent = 'Sending...';
             try {
-                await emailjs.sendForm('service_6itarzq', 'template_aybycuf', this, 'Kh4L6GyJRqfgckSwt');
-                await emailjs.sendForm('service_6itarzq', 'template_fcvr94b', this, 'Kh4L6GyJRqfgckSwt');
+                const formData = new FormData(this);
+                const body = Object.fromEntries(formData.entries());
+                const res = await fetch('/api/send-confirmation', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok) throw new Error(data.error || 'Failed to send');
                 document.getElementById('form-section').classList.add('hidden');
                 document.getElementById('done-section').classList.remove('hidden');
             } catch (err) {
-                console.error(err);
-                msgDiv.textContent = 'Could not send. Please try again or email Whissspernuance@gmail.com.';
+                msgDiv.textContent = err.message || 'Could not send. Please try again or email Whissspernuance@gmail.com.';
                 msgDiv.className = 'mb-6 p-4 rounded-lg bg-red-500/20 border border-red-500/50 text-red-300';
                 msgDiv.classList.remove('hidden');
                 btn.disabled = false;
