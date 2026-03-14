@@ -162,7 +162,7 @@
         </div>
         <div class="max-w-6xl mx-auto mb-12">
             <div class="grid md:grid-cols-3 gap-8">
-                <div id="package-daily" class="package-card relative bg-gradient-to-br from-indigo-900/30 to-purple-900/30 backdrop-blur-sm border-2 border-purple-500/30 rounded-3xl p-8 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/30 cursor-pointer">
+                <div class="relative bg-gradient-to-br from-indigo-900/30 to-purple-900/30 backdrop-blur-sm border-2 border-purple-500/30 rounded-3xl p-8 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/30 cursor-pointer">
                     <div class="flex items-center justify-between mb-4"><h3 class="text-3xl font-bold text-purple-200">Daily Reading</h3><div class="package-check w-6 h-6 rounded-full border-2 border-gray-400 flex items-center justify-center"></div></div>
                     <div class="flex items-baseline space-x-2 mb-4"><span class="text-5xl font-bold bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent">$11.11</span></div>
                     <div class="flex items-center space-x-2 text-gray-300 mb-6"><i data-lucide="clock" class="w-4 h-4"></i><span>15–20 minutes</span></div>
@@ -173,8 +173,9 @@
                         <li class="flex items-start space-x-3"><i data-lucide="sparkles" class="text-purple-400 flex-shrink-0 mt-1 w-4 h-4"></i><span class="text-gray-300 text-sm">Single card or 3-card spread</span></li>
                         <li class="flex items-start space-x-3"><i data-lucide="sparkles" class="text-purple-400 flex-shrink-0 mt-1 w-4 h-4"></i><span class="text-gray-300 text-sm">Email delivery of reading</span></li>
                     </ul>
+                    <a href="https://buy.stripe.com/00w28q7mfgrXb5XgYV4Ja02" class="block w-full py-3 px-4 text-center font-semibold rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white transition-all shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50" onclick="event.preventDefault(); window.open(this.href,'stripe-checkout','width=500,height=700,scrollbars=yes'); return false;">Buy now — $11.11</a>
                 </div>
-                <div id="package-weekly" class="package-card relative bg-gradient-to-br from-indigo-900/30 to-purple-900/30 backdrop-blur-sm border-2 border-purple-500/30 rounded-3xl p-8 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/30 cursor-pointer">
+                <div class="relative bg-gradient-to-br from-indigo-900/30 to-purple-900/30 backdrop-blur-sm border-2 border-purple-500/30 rounded-3xl p-8 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/30 cursor-pointer">
                     <div class="flex items-center justify-between mb-4"><h3 class="text-3xl font-bold text-purple-200">Weekly Reading</h3><div class="package-check w-6 h-6 rounded-full border-2 border-gray-400 flex items-center justify-center"></div></div>
                     <div class="flex items-baseline space-x-2 mb-4"><span class="text-5xl font-bold bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent">$33.33</span></div>
                     <div class="flex items-center space-x-2 text-gray-300 mb-6"><i data-lucide="clock" class="w-4 h-4"></i><span>30 minutes</span></div>
@@ -184,8 +185,9 @@
                         <li class="flex items-start space-x-3"><i data-lucide="sparkles" class="text-purple-400 flex-shrink-0 mt-1 w-4 h-4"></i><span class="text-gray-300 text-sm">Weekly guidance and insights</span></li>
                         <li class="flex items-start space-x-3"><i data-lucide="sparkles" class="text-purple-400 flex-shrink-0 mt-1 w-4 h-4"></i><span class="text-gray-300 text-sm">3-card spread</span></li>
                     </ul>
+                    <a href="https://buy.stripe.com/aFa9ASeOHb7Da1T0ZX4Ja01" class="block w-full py-3 px-4 text-center font-semibold rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white transition-all shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50" onclick="event.preventDefault(); window.open(this.href,'stripe-checkout','width=500,height=700,scrollbars=yes'); return false;">Buy now — $33.33</a>
                 </div>
-                <div id="package-monthly" class="package-card relative bg-gradient-to-br from-purple-900/40 to-pink-900/40 border-purple-400/50 backdrop-blur-sm border-2 rounded-3xl p-8 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/30 cursor-pointer">
+                <div class="relative bg-gradient-to-br from-purple-900/40 to-pink-900/40 border-purple-400/50 backdrop-blur-sm border-2 rounded-3xl p-8 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/30 cursor-pointer">
                     <div class="absolute -top-4 left-1/2 transform -translate-x-1/2"><div class="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-1 rounded-full text-sm font-semibold">Most Popular</div></div>
                     <div class="flex items-center justify-between mb-4"><h3 class="text-3xl font-bold text-purple-200">Monthly Reading</h3><div class="package-check w-6 h-6 rounded-full border-2 border-gray-400 flex items-center justify-center"></div></div>
                     <div class="flex items-baseline space-x-2 mb-4"><span class="text-5xl font-bold bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent">$55.55</span></div>
@@ -196,30 +198,12 @@
                         <li class="flex items-start space-x-3"><i data-lucide="sparkles" class="text-purple-400 flex-shrink-0 mt-1 w-4 h-4"></i><span class="text-gray-300 text-sm">Full month forecast</span></li>
                         <li class="flex items-start space-x-3"><i data-lucide="sparkles" class="text-purple-400 flex-shrink-0 mt-1 w-4 h-4"></i><span class="text-gray-300 text-sm">Celtic Cross spread (10 cards)</span></li>
                     </ul>
+                    <a href="https://buy.stripe.com/eVqeVc8qj8Zvde53854Ja00" class="block w-full py-3 px-4 text-center font-semibold rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white transition-all shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50" onclick="event.preventDefault(); window.open(this.href,'stripe-checkout','width=500,height=700,scrollbars=yes'); return false;">Buy now — $55.55</a>
                 </div>
             </div>
         </div>
-        <div class="max-w-2xl mx-auto">
-            <div class="bg-gradient-to-br from-purple-900/30 to-pink-900/30 backdrop-blur-sm border border-purple-500/30 rounded-3xl p-8 md:p-12">
-                <h2 class="text-3xl font-bold mb-2 text-center text-purple-200">Complete Your Booking</h2>
-                <p class="text-center text-gray-400 text-sm mb-6">Fill out the form below, then you'll be redirected to secure payment for your chosen reading.</p>
-                <div id="form-message" class="hidden mb-6 p-4 rounded-lg"></div>
-                <form id="booking-form" class="space-y-6">
-                    <input type="hidden" name="booking_date" id="hid-booking-date" value="">
-                    <input type="hidden" name="booking_time" id="hid-booking-time" value="">
-                    <input type="hidden" name="package_name" id="hid-package-name" value="">
-                    <input type="hidden" name="package_price" id="hid-package-price" value="">
-                    <input type="hidden" name="package_duration" id="hid-package-duration" value="">
-                    <input type="hidden" name="user_phone" value="">
-                    <div><label class="block text-gray-300 mb-2 font-medium">Your Name *</label><input name="user_name" type="text" required class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Enter your full name"></div>
-                    <div><label class="block text-gray-300 mb-2 font-medium">Email Address *</label><input name="user_email" type="email" required class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="For your booking confirmation"></div>
-                    <div><label class="block text-gray-300 mb-2 font-medium">What guidance are you seeking? *</label><textarea name="message" required rows="5" class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none" placeholder="Your question or focus for the reading..."></textarea></div>
-                    <div><label class="block text-gray-300 mb-2 font-medium">Preferred Date & Time</label><input name="preferred_date" type="text" class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="e.g., Weekday mornings 8–11am"></div>
-                    <div id="selected-package" class="hidden p-4 bg-purple-500/20 border border-purple-400/30 rounded-lg"><p class="text-sm text-gray-300 mb-1">Selected Package:</p><p class="font-semibold text-purple-200"></p></div>
-                    <button type="submit" id="submit-btn" class="w-full py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg font-semibold text-lg hover:from-purple-500 hover:to-pink-500 transition-all shadow-lg shadow-purple-500/50 disabled:opacity-50 flex items-center justify-center space-x-2"><span>Complete Booking &amp; Pay</span><i data-lucide="sparkles" class="w-5 h-5"></i></button>
-                </form>
-                <p class="text-center text-gray-400 text-sm mt-6">Whisper Nuance will receive a confirmation. After payment, you'll receive a confirmation email with your booked date. Questions? Email <a href="mailto:Whissspernuance@gmail.com" class="text-purple-300 hover:underline">Whissspernuance@gmail.com</a>.</p>
-            </div>
+        <div class="max-w-2xl mx-auto text-center">
+            <p class="text-gray-400">Click a package above to purchase. After payment, you'll enter your contact details to receive confirmation. Questions? Email <a href="mailto:Whissspernuance@gmail.com" class="text-purple-300 hover:underline">Whissspernuance@gmail.com</a>.</p>
         </div>
     </section>
 
@@ -242,65 +226,6 @@
             });
         }
         updateActiveNav();
-        emailjs.init('Kh4L6GyJRqfgckSwt');
-        const STRIPE_URLS = { 'package-daily': 'https://buy.stripe.com/00w28q7mfgrXb5XgYV4Ja02', 'package-weekly': 'https://buy.stripe.com/aFa9ASeOHb7Da1T0ZX4Ja01', 'package-monthly': 'https://buy.stripe.com/eVqeVc8qj8Zvde53854Ja00' };
-        const PACKAGE_INFO = { 'package-daily': { name: 'Daily Reading', price: '11.11', duration: '15–20 minutes' }, 'package-weekly': { name: 'Weekly Reading', price: '33.33', duration: '30 minutes' }, 'package-monthly': { name: 'Monthly Reading', price: '55.55', duration: '1 hour' } };
-        let selectedPackageId = null;
-        document.querySelectorAll('.package-card').forEach(card => {
-            card.addEventListener('click', function() {
-                document.querySelectorAll('.package-card').forEach(c => { c.classList.remove('ring-4', 'ring-purple-400/50', 'scale-105'); c.querySelector('.package-check').innerHTML = ''; });
-                this.classList.add('ring-4', 'ring-purple-400/50', 'scale-105');
-                this.querySelector('.package-check').innerHTML = '<i data-lucide="check-circle" class="text-white w-4 h-4"></i>';
-                lucide.createIcons();
-                selectedPackageId = this.id;
-                const info = PACKAGE_INFO[selectedPackageId];
-                const selectedDiv = document.getElementById('selected-package');
-                selectedDiv.classList.remove('hidden');
-                selectedDiv.querySelector('p:last-child').textContent = info.name + ' - $' + info.price;
-            });
-        });
-        document.getElementById('booking-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const msgDiv = document.getElementById('form-message');
-            const btn = document.getElementById('submit-btn');
-            if (!selectedPackageId) {
-                msgDiv.textContent = 'Please select a reading package first.';
-                msgDiv.className = 'mb-6 p-4 rounded-lg bg-red-500/20 border border-red-500/50 text-red-300';
-                msgDiv.classList.remove('hidden');
-                return;
-            }
-            const preferredDate = this.querySelector('[name="preferred_date"]').value || 'Not specified';
-            document.getElementById('hid-booking-date').value = preferredDate;
-            document.getElementById('hid-booking-time').value = preferredDate;
-            const info = PACKAGE_INFO[selectedPackageId];
-            document.getElementById('hid-package-name').value = info.name;
-            document.getElementById('hid-package-price').value = info.price;
-            document.getElementById('hid-package-duration').value = info.duration;
-            btn.disabled = true;
-            btn.innerHTML = '<div class="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div><span>Sending...</span>';
-            try {
-                await emailjs.sendForm('service_6itarzq', 'template_fcvr94b', this, 'Kh4L6GyJRqfgckSwt');
-                const userEmail = this.querySelector('[name="user_email"]').value;
-                sessionStorage.setItem('whisper_booking', JSON.stringify({
-                    user_email: userEmail,
-                    user_name: this.querySelector('[name="user_name"]').value,
-                    booking_date: preferredDate,
-                    package_name: info.name
-                }));
-                msgDiv.textContent = 'Confirmation sent to Whisper Nuance. Redirecting to secure payment...';
-                msgDiv.className = 'mb-6 p-4 rounded-lg bg-green-500/20 border border-green-500/50 text-green-300';
-                msgDiv.classList.remove('hidden');
-                setTimeout(() => { window.location.href = STRIPE_URLS[selectedPackageId]; }, 1500);
-            } catch (err) {
-                console.error('EmailJS error:', err);
-                msgDiv.textContent = 'Could not send confirmation. Please try again or email Whissspernuance@gmail.com.';
-                msgDiv.className = 'mb-6 p-4 rounded-lg bg-red-500/20 border border-red-500/50 text-red-300';
-                msgDiv.classList.remove('hidden');
-                btn.disabled = false;
-                btn.innerHTML = '<span>Complete Booking &amp; Pay</span><i data-lucide="sparkles" class="w-5 h-5"></i>';
-                lucide.createIcons();
-            }
-        });
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) { e.preventDefault(); const target = document.querySelector(this.getAttribute('href')); if (target) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); document.getElementById('mobile-menu').classList.add('hidden'); } });
         });
