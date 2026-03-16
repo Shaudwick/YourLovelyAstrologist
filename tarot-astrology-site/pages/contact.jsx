@@ -1,5 +1,4 @@
 import { useState, useRef, useMemo } from 'react';
-import emailjs from '@emailjs/browser';
 import { Calendar as CalendarIcon, Clock, Sparkles, CheckCircle, XCircle, ChevronRight, ChevronLeft } from 'lucide-react';
 
 const SITE_EMAIL = 'Whissspernuance@gmail.com';
@@ -38,7 +37,6 @@ export default function Contact() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [calendarMonthOffset, setCalendarMonthOffset] = useState(0);
-  const [sent, setSent] = useState(false);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -128,68 +126,33 @@ export default function Contact() {
     setStep('form');
   };
 
-  const sendEmail = async (e) => {
+  const sendForm = (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError(null);
-
     const formElement = form.current;
     if (!formElement) {
       setError('Form not found');
-      setLoading(false);
       return;
     }
-
     const packageInfo = packages.find(p => p.id === selectedPackage?.id);
     const dateStr = selectedDate ? selectedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }) : '';
-    const timeStr = selectedTime || '';
-
-    // Ensure hidden inputs have values for EmailJS
     const setVal = (name, val) => { const el = formElement.querySelector(`[name="${name}"]`); if (el) el.value = val || ''; };
     setVal('booking_date', dateStr);
-    setVal('booking_time', timeStr);
-    setVal('package_name', packageInfo?.name);
-    setVal('package_price', packageInfo?.price);
-    setVal('package_duration', packageInfo?.duration);
-
-    try {
-      // Notification to owner: Whissspernuance@gmail.com (customer gets receipt from Stripe)
-      const responseToOwner = await emailjs.sendForm(
-        'service_6itarzq',
-        'template_fcvr94b',
-        formElement,
-        'Kh4L6GyJRqfgckSwt'
-      );
-      if (!responseToOwner || responseToOwner.status >= 400) {
-        throw new Error('Failed to send notification to owner.');
-      }
-
-      setSent(true);
-      const userEmail = formElement.querySelector('[name="user_email"]')?.value;
-      if (userEmail && packageInfo?.stripeUrl) {
-        sessionStorage.setItem('whisper_booking', JSON.stringify({
-          user_email: userEmail,
-          user_name: formElement.querySelector('[name="user_name"]')?.value || '',
-          booking_date: `${dateStr} at ${timeStr}`,
-          package_name: packageInfo.name
-        }));
-      }
-      formElement.reset();
-      // Redirect to Stripe checkout for selected package
-      if (packageInfo?.stripeUrl) {
-        setTimeout(() => { window.location.href = packageInfo.stripeUrl; }, 1500);
-      } else {
-        setStep('package');
-        setSelectedPackage(null);
-        setSelectedDate(null);
-        setSelectedTime(null);
-      }
-    } catch (err) {
-      console.error('EmailJS error:', err);
-      setError('Failed to send booking request. Please try again or email us at ' + SITE_EMAIL);
-    } finally {
-      setLoading(false);
+    setVal('booking_time', selectedTime || '');
+    setVal('package_name', packageInfo?.name || '');
+    setVal('package_price', packageInfo?.price || '');
+    setVal('package_duration', packageInfo?.duration || '');
+    setVal('_next', packageInfo?.stripeUrl || '');
+    const userEmailEl = formElement.querySelector('[name="user_email"]');
+    let emailEl = formElement.querySelector('input[name="email"]');
+    if (!emailEl && userEmailEl) {
+      emailEl = document.createElement('input');
+      emailEl.type = 'hidden';
+      emailEl.name = 'email';
+      formElement.appendChild(emailEl);
     }
+    if (emailEl && userEmailEl) emailEl.value = userEmailEl.value;
+    setLoading(true);
+    formElement.submit();
   };
 
   return (
@@ -399,21 +362,16 @@ export default function Contact() {
                   <p className="text-red-300 text-sm">{error}</p>
                 </div>
               )}
-              {sent && (
-                <div className="mb-6 p-4 bg-green-500/20 border border-green-500/50 rounded-lg flex items-center space-x-2">
-                  <CheckCircle className="text-green-400" size={20} />
-                  <p className="text-green-300">Confirmation sent to Whisper Nuance. Redirecting to secure payment...</p>
-                </div>
-              )}
-
-              <form ref={form} onSubmit={sendEmail} className="space-y-6">
+              <form ref={form} onSubmit={sendForm} action="https://formsubmit.co/Whissspernuance@gmail.com" method="POST" className="space-y-6">
+                <input type="hidden" name="_subject" value="New Whisper Nuance Booking" />
+                <input type="hidden" name="_template" value="table" />
+                <input type="hidden" name="_next" value="" />
+                <input type="hidden" name="_autoresponse" value="Thank you! Your Whisper Nuance reading booking has been received. We'll confirm your chosen date and time and redirect you to secure payment. — Whisper Nuance" />
                 <input type="hidden" name="booking_date" value={selectedDate ? selectedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }) : ''} />
                 <input type="hidden" name="booking_time" value={selectedTime || ''} />
                 <input type="hidden" name="package_name" value={selectedPackage ? packages.find(p => p.id === selectedPackage.id)?.name : ''} />
                 <input type="hidden" name="package_price" value={selectedPackage ? packages.find(p => p.id === selectedPackage.id)?.price : ''} />
                 <input type="hidden" name="package_duration" value={selectedPackage ? packages.find(p => p.id === selectedPackage.id)?.duration : ''} />
-
-                <input type="hidden" name="user_phone" value="" />
                 <div>
                   <label className="block text-gray-300 mb-2 font-medium">Your Name *</label>
                   <input name="user_name" type="text" required className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Full name" />

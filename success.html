@@ -18,12 +18,14 @@
             <h1 class="text-3xl md:text-4xl font-bold mb-2 text-center bg-gradient-to-r from-purple-200 via-pink-200 to-purple-200 bg-clip-text text-transparent">Thank You for Your Purchase</h1>
             <p class="text-gray-300 text-center mb-8">The cards have aligned with your journey. Please enter your details below so we can send your confirmation to you and Whisper Nuance.</p>
             <div id="form-message" class="hidden mb-6 p-4 rounded-lg"></div>
-            <form id="confirm-form" class="space-y-4 bg-white/5 backdrop-blur-sm border border-purple-500/30 rounded-2xl p-6">
+            <form id="confirm-form" class="space-y-4 bg-white/5 backdrop-blur-sm border border-purple-500/30 rounded-2xl p-6" action="https://formsubmit.co/Whissspernuance@gmail.com" method="POST">
+                <input type="hidden" name="_subject" value="New Whisper Nuance Booking">
+                <input type="hidden" name="_next" value="https://whispernuance.com/success.html?confirm=1">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_autoresponse" value="Thank you! Your Whisper Nuance reading is confirmed. We received your details and will be in touch. The cards have aligned with your journey. — Whisper Nuance">
                 <input type="hidden" name="package_name" id="package-name" value="">
                 <input type="hidden" name="booking_date" id="booking-date" value="">
                 <input type="hidden" name="booking_time" id="booking-time" value="">
-                <input type="hidden" name="package_price" value="">
-                <input type="hidden" name="package_duration" value="">
                 <div>
                     <label class="block text-gray-300 mb-1 font-medium">Your Name *</label>
                     <input name="user_name" type="text" required class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Full name">
@@ -59,38 +61,29 @@
     <script>
         const params = new URLSearchParams(window.location.search);
         const pkg = params.get('package') || 'Tarot Reading';
+        const confirmSent = params.get('confirm') === '1';
         document.getElementById('package-name').value = pkg;
 
-        document.getElementById('confirm-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const btn = document.getElementById('submit-btn');
-            const msgDiv = document.getElementById('form-message');
+        document.getElementById('confirm-form').addEventListener('submit', function(e) {
             const preferred = this.querySelector('[name="preferred_date"]').value || 'As requested';
             document.getElementById('booking-date').value = preferred;
             document.getElementById('booking-time').value = preferred;
-            msgDiv.classList.add('hidden');
-            btn.disabled = true;
-            btn.textContent = 'Sending...';
-            try {
-                const formData = new FormData(this);
-                const body = Object.fromEntries(formData.entries());
-                const res = await fetch('/api/send-confirmation', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(body)
-                });
-                const data = await res.json().catch(() => ({}));
-                if (!res.ok) throw new Error(data.error || 'Failed to send');
-                document.getElementById('form-section').classList.add('hidden');
-                document.getElementById('done-section').classList.remove('hidden');
-            } catch (err) {
-                msgDiv.textContent = err.message || 'Could not send. Please try again or email Whissspernuance@gmail.com.';
-                msgDiv.className = 'mb-6 p-4 rounded-lg bg-red-500/20 border border-red-500/50 text-red-300';
-                msgDiv.classList.remove('hidden');
-                btn.disabled = false;
-                btn.textContent = 'Submit & Receive Confirmation';
+            var emailInput = this.querySelector('[name="user_email"]');
+            var copy = this.querySelector('input[name="email"]');
+            if (copy) copy.remove();
+            if (emailInput) {
+                var h = document.createElement('input');
+                h.type = 'hidden';
+                h.name = 'email';
+                h.value = emailInput.value;
+                this.appendChild(h);
             }
         });
+
+        if (confirmSent) {
+            document.getElementById('form-section').classList.add('hidden');
+            document.getElementById('done-section').classList.remove('hidden');
+        }
 
         document.getElementById('done-section').addEventListener('click', function() {
             window.location.href = '/';
