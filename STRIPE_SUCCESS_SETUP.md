@@ -14,4 +14,4 @@ Customers buy first, then enter their contact details on the success page. Confi
 
 4. Save each link.
 
-Replace `whispernuance.com` with your domain if different. After payment, customers land on the success page, enter email and phone, and confirmations are sent to all parties.
+Replace `whispernuance.com` with your domain if different. After payment, customers land on the success page and click the “Email your details” button to send their name, package, and preferred date/time to Whisper Nuance. No form or API keys needed.
