@@ -1,5 +1,5 @@
-import { useState, useRef, useMemo } from 'react';
-import { Calendar as CalendarIcon, Clock, Sparkles, CheckCircle, XCircle, ChevronRight, ChevronLeft } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import { Calendar as CalendarIcon, Clock, Sparkles, CheckCircle, ChevronRight, ChevronLeft } from 'lucide-react';
 
 const SITE_EMAIL = 'Whissspernuance@gmail.com';
 const TIME_SLOTS = ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM'];
@@ -31,14 +31,11 @@ function getMonthYear(date) {
 }
 
 export default function Contact() {
-  const form = useRef();
   const [step, setStep] = useState('package'); // 'package' | 'calendar' | 'form'
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [calendarMonthOffset, setCalendarMonthOffset] = useState(0);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
 
   const packages = [
     {
@@ -124,35 +121,6 @@ export default function Contact() {
   const goToForm = () => {
     if (!selectedDate || !selectedTime) return;
     setStep('form');
-  };
-
-  const sendForm = (e) => {
-    e.preventDefault();
-    const formElement = form.current;
-    if (!formElement) {
-      setError('Form not found');
-      return;
-    }
-    const packageInfo = packages.find(p => p.id === selectedPackage?.id);
-    const dateStr = selectedDate ? selectedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }) : '';
-    const setVal = (name, val) => { const el = formElement.querySelector(`[name="${name}"]`); if (el) el.value = val || ''; };
-    setVal('booking_date', dateStr);
-    setVal('booking_time', selectedTime || '');
-    setVal('package_name', packageInfo?.name || '');
-    setVal('package_price', packageInfo?.price || '');
-    setVal('package_duration', packageInfo?.duration || '');
-    setVal('_next', packageInfo?.stripeUrl || '');
-    const userEmailEl = formElement.querySelector('[name="user_email"]');
-    let emailEl = formElement.querySelector('input[name="email"]');
-    if (!emailEl && userEmailEl) {
-      emailEl = document.createElement('input');
-      emailEl.type = 'hidden';
-      emailEl.name = 'email';
-      formElement.appendChild(emailEl);
-    }
-    if (emailEl && userEmailEl) emailEl.value = userEmailEl.value;
-    setLoading(true);
-    formElement.submit();
   };
 
   return (
@@ -350,61 +318,48 @@ export default function Contact() {
         <section className="py-8 px-4">
           <div className="max-w-2xl mx-auto">
             <div className="bg-gradient-to-br from-purple-900/30 to-pink-900/30 backdrop-blur-sm border border-purple-500/30 rounded-3xl p-8 md:p-12">
-              <p className="text-center text-gray-400 mb-2">Step 3 — Complete your booking</p>
+              <p className="text-center text-gray-400 mb-2">Step 3 — Send your details</p>
               <p className="text-center text-purple-200 font-semibold mb-2">
                 {selectedPackage?.name} — {selectedDate?.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })} at {selectedTime}
               </p>
-              <p className="text-center text-gray-400 text-sm mb-6">Fill out the form, then you&apos;ll be redirected to secure payment. After payment, you&apos;ll receive a confirmation email with your booked date.</p>
+              <p className="text-center text-gray-300 text-sm mb-6">
+                You’re booked via Stripe. Email us your details to lock in the reading time.
+              </p>
 
-              {error && (
-                <div className="mb-6 p-4 bg-red-500/20 border border-red-500/50 rounded-lg flex items-center space-x-2">
-                  <XCircle className="text-red-400" size={20} />
-                  <p className="text-red-300 text-sm">{error}</p>
-                </div>
-              )}
-              <form ref={form} onSubmit={sendForm} action="https://formsubmit.co/Whissspernuance@gmail.com" method="POST" className="space-y-6">
-                <input type="hidden" name="_subject" value="New Whisper Nuance Booking" />
-                <input type="hidden" name="_template" value="table" />
-                <input type="hidden" name="_next" value="" />
-                <input type="hidden" name="_autoresponse" value="Thank you! Your Whisper Nuance reading booking has been received. We'll confirm your chosen date and time and redirect you to secure payment. — Whisper Nuance" />
-                <input type="hidden" name="booking_date" value={selectedDate ? selectedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }) : ''} />
-                <input type="hidden" name="booking_time" value={selectedTime || ''} />
-                <input type="hidden" name="package_name" value={selectedPackage ? packages.find(p => p.id === selectedPackage.id)?.name : ''} />
-                <input type="hidden" name="package_price" value={selectedPackage ? packages.find(p => p.id === selectedPackage.id)?.price : ''} />
-                <input type="hidden" name="package_duration" value={selectedPackage ? packages.find(p => p.id === selectedPackage.id)?.duration : ''} />
-                <div>
-                  <label className="block text-gray-300 mb-2 font-medium">Your Name *</label>
-                  <input name="user_name" type="text" required className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Full name" />
-                </div>
-                <div>
-                  <label className="block text-gray-300 mb-2 font-medium">Email Address *</label>
-                  <input name="user_email" type="email" required className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="For your booking confirmation" />
-                </div>
-                <div>
-                  <label className="block text-gray-300 mb-2 font-medium">What guidance are you seeking? *</label>
-                  <textarea name="message" required rows={4} className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none" placeholder="Your question or focus for the reading..." />
-                </div>
+              <div className="bg-white/5 border border-purple-500/30 rounded-xl p-5 text-left space-y-2 mb-6">
+                <p className="text-gray-200 font-semibold">Include in your email:</p>
+                <ul className="list-disc list-inside text-gray-300 text-sm space-y-1">
+                  <li>Your name and email</li>
+                  <li>Package: {selectedPackage?.name || 'Your reading'}</li>
+                  <li>Preferred date & time: {selectedDate ? selectedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }) : ''} {selectedTime || ''}</li>
+                  <li>Any questions or focus for the reading</li>
+                </ul>
+              </div>
 
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg font-semibold text-lg hover:from-purple-500 hover:to-pink-500 transition-all shadow-lg shadow-purple-500/50 disabled:opacity-50 flex items-center justify-center space-x-2"
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <a
+                  href={`mailto:${SITE_EMAIL}?subject=${encodeURIComponent(`Booking request: ${selectedPackage?.name || 'Reading'}`)}&body=${encodeURIComponent(
+                    `Name:\nEmail:\nPhone:\nPackage: ${selectedPackage?.name || ''}\nPreferred date & time: ${
+                      selectedDate
+                        ? selectedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })
+                        : ''
+                    } ${selectedTime || ''}\nQuestions:\n`
+                  )}`}
+                  className="w-full sm:w-auto px-6 py-3 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold shadow-lg shadow-purple-500/30 hover:from-purple-500 hover:to-pink-500 transition-all text-center flex items-center justify-center space-x-2"
                 >
-                  {loading ? (
-                    <>
-                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      <span>Sending...</span>
-                    </>
-                  ) : (
-                    <>
-                      <span>Complete booking &amp; pay</span>
-                      <Sparkles size={20} />
-                    </>
-                  )}
+                  <span>Email Whissspernuance@gmail.com</span>
+                  <Sparkles size={18} />
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setStep('package')}
+                  className="w-full sm:w-auto px-6 py-3 rounded-lg bg-white/10 border border-white/20 text-white font-semibold hover:bg-white/15 transition-all"
+                >
+                  Back to packages
                 </button>
-              </form>
+              </div>
               <p className="text-center text-gray-400 text-sm mt-4">
-                You’ll receive an email confirming your chosen date and time. Questions? Email us at <a href={`mailto:${SITE_EMAIL}`} className="text-purple-300 hover:underline">{SITE_EMAIL}</a>.
+                We’ll reply with your confirmation and next steps.
               </p>
             </div>
           </div>
